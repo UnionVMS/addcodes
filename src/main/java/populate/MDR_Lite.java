@@ -186,6 +186,7 @@ public class MDR_Lite {
                 String codeStr = "";
                 String descrStr = "";
                 Map<String, String> internalreferencesList = new HashMap<>();
+                Map<String, String> internals = new HashMap<>();
                 for (Element column : columns) {
 
                     List<Attribute> attributes = column.getAttributes();
@@ -224,30 +225,23 @@ public class MDR_Lite {
                                 if (valueOfAttribute.equals("fishg_fishgtyp_id")) {
 
 
-//									String value = column.getAttribute("valueNumeric") == null ? ""
-//											: column.getAttribute("valueNumeric").getValue();
-//									internalreferences ir = new internalreferences("fishinggeartype", value);
-//									internalreferencesList.add(ir);
-									
-
+									String value = column.getAttribute("valueNumeric") == null ? ""
+											: column.getAttribute("valueNumeric").getValue();
+									internals.put("fishinggeartype".toUpperCase(),value);
                                     gtypReceived = true;
                                 }
                                 if (valueOfAttribute.equals("fishg_fishgm_id")) {
 
-//									String value = column.getAttribute("valueNumeric") == null ? ""
-//											: column.getAttribute("valueNumeric").getValue();
-//									internalreferences ir = new internalreferences("fishinggearmobility", value);
-//									internalreferencesList.add(ir);
-
+									String value = column.getAttribute("valueNumeric") == null ? ""
+											: column.getAttribute("valueNumeric").getValue();
+                                    internals.put("fishinggearmobility".toUpperCase(),value);
                                     mobtypeReceived = true;
                                 }
                                 if (valueOfAttribute.equals("fishg_fishtyp_id")) {
 
-//									String value = column.getAttribute("valueNumeric") == null ? ""
-//											: column.getAttribute("valueNumeric").getValue();
-//									internalreferences ir = new internalreferences("fishingtype", value);
-//									internalreferencesList.add(ir);
-
+									String value = column.getAttribute("valueNumeric") == null ? ""
+											: column.getAttribute("valueNumeric").getValue();
+                                    internals.put("fishingtype".toUpperCase(),value);
                                     ftypeReceived = true;
                                 }
 
@@ -262,7 +256,7 @@ public class MDR_Lite {
                                     String json = MAPPER.writeValueAsString(internalreferencesList);
                                     internalreferencesList.clear();
                                     // OBS här kan även props stoppas i med lite fiffel
-                                    replace(tableName.toUpperCase(), codeStr.toUpperCase(), descrStr);
+                                    replace(tableName.toUpperCase(), codeStr.toUpperCase(), descrStr, internals);
 
                                 }
 
@@ -270,7 +264,7 @@ public class MDR_Lite {
                                 if (codeReceived && valueReceived) {
                                     codeReceived = false;
                                     valueReceived = false;
-                                    replace(tableName.toUpperCase(), codeStr.toUpperCase(), descrStr);
+                                    replace(tableName.toUpperCase(), codeStr.toUpperCase(), descrStr, internals);
                                 }
                             }
                         }
@@ -282,7 +276,7 @@ public class MDR_Lite {
     }
 
 
-    private void replace(String constant, String code, String description) throws IOException {
+    private void replace(String constant, String code, String description, Map<String,String> internals) throws IOException {
 
         System.out.println(constant + " / " + code + " / " + description);
 
@@ -299,6 +293,9 @@ public class MDR_Lite {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+        if(internals.size() > 0 ){
+            customCode.setNameValue(internals);
+        }
 
         String json = mapper.writeValueAsString(customCode);
         System.out.println(json);
