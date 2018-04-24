@@ -27,7 +27,7 @@ import java.util.*;
 
 public class MDR_Lite {
 
-    private static final String REST_END_POINT = "http://localhost:8080/asset/rest/internal";
+    private static final String REST_END_POINT = "http://localhost:28080/asset/rest/internal/";
     private Client client = ClientBuilder.newClient();
 
 
@@ -223,31 +223,31 @@ public class MDR_Lite {
 
                                 if (valueOfAttribute.equals("fishg_fishgtyp_id")) {
 
-									/*
-									String value = column.getAttribute("valueNumeric") == null ? ""
-											: column.getAttribute("valueNumeric").getValue();
-									internalreferences ir = new internalreferences("fishinggeartype", value);
-									internalreferencesList.add(ir);
+
+//									String value = column.getAttribute("valueNumeric") == null ? ""
+//											: column.getAttribute("valueNumeric").getValue();
+//									internalreferences ir = new internalreferences("fishinggeartype", value);
+//									internalreferencesList.add(ir);
 									
-									*/
+
                                     gtypReceived = true;
                                 }
                                 if (valueOfAttribute.equals("fishg_fishgm_id")) {
-									/*
-									String value = column.getAttribute("valueNumeric") == null ? ""
-											: column.getAttribute("valueNumeric").getValue();
-									internalreferences ir = new internalreferences("fishinggearmobility", value);
-									internalreferencesList.add(ir);
-									*/
+
+//									String value = column.getAttribute("valueNumeric") == null ? ""
+//											: column.getAttribute("valueNumeric").getValue();
+//									internalreferences ir = new internalreferences("fishinggearmobility", value);
+//									internalreferencesList.add(ir);
+
                                     mobtypeReceived = true;
                                 }
                                 if (valueOfAttribute.equals("fishg_fishtyp_id")) {
-									/*
-									String value = column.getAttribute("valueNumeric") == null ? ""
-											: column.getAttribute("valueNumeric").getValue();
-									internalreferences ir = new internalreferences("fishingtype", value);
-									internalreferencesList.add(ir);
-									*/
+
+//									String value = column.getAttribute("valueNumeric") == null ? ""
+//											: column.getAttribute("valueNumeric").getValue();
+//									internalreferences ir = new internalreferences("fishingtype", value);
+//									internalreferencesList.add(ir);
+
                                     ftypeReceived = true;
                                 }
 
@@ -300,11 +300,16 @@ public class MDR_Lite {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
+        String json = mapper.writeValueAsString(customCode);
+        System.out.println(json);
+
         String str = client.target(REST_END_POINT)
                 .path("replace")
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.json(customCode), String.class);
+                .post(Entity.entity(json,MediaType.APPLICATION_JSON), String.class);
         CustomCode cc = mapper.readValue(str, CustomCode.class);
+
+
     }
 
     public static void main(String... args) {
