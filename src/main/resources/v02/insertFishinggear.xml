@@ -201,15 +201,15 @@
 			<column name="code" value="NK" />
 			<column name="description" />
 			<column name="fishg_fishgtyp_id" valueNumeric="Unknown" />
-			<column name="fishg_fishgm_id" />
-			<column name="fishg_fishtyp_id" />
+			<column name="fishg_fishgm_id"  valueNumeric="Unknown"/>
+			<column name="fishg_fishtyp_id"  valueNumeric="Unknown"/>
 		</insert>
 		<insert tableName="fishinggear">
 			<column name="code" value="NO" />
 			<column name="description" />
 			<column name="fishg_fishgtyp_id" valueNumeric="Unknown" />
-			<column name="fishg_fishgm_id" />
-			<column name="fishg_fishtyp_id" />
+			<column name="fishg_fishgm_id"  valueNumeric="Unknown"/>
+			<column name="fishg_fishtyp_id"  valueNumeric="Unknown"/>
 		</insert>
 	</changeSet>
 </databaseChangeLog>
